@@ -3,6 +3,8 @@
 
 #include <vector>
 #include <iostream>
+#include "sorts.cpp"
+#include "merge_sort.cpp"
 
 using namespace std;
 
