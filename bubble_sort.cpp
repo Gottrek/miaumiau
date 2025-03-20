@@ -1,4 +1,3 @@
-#include <iostream>
 #include "sorts.h"
 
 using namespace std;

@@ -5,13 +5,12 @@
 #include <iostream>
 #include <random>
 #include <chrono>
-#include "sorts.cpp"
-#include "merge_sort.cpp"
 
 using namespace std;
 using namespace chrono;
 
-int liczba_porownan = 0, liczba_zamian = 0;
+extern long long int liczba_porownan;
+extern long long int liczba_zamian;
 
 void print_vector(vector<int>& arr);
 vector<int> generate_random_vector(int n, int min, int max);

@@ -1,7 +1,9 @@
-#include <iostream>
 #include "sorts.h"
 
 using namespace std;
+
+long long int liczba_porownan = 0;
+long long int liczba_zamian = 0;
 
 void print_vector(vector<int>& arr)
 {
