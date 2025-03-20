@@ -21,5 +21,6 @@ void bubble_sort(vector<int>& arr);
 void selection_sort(vector<int>& arr);
 void insertion_sort(vector<int>& arr);
 void quick_sort(vector<int>& arr, int low, int high);
+void heap_sort(vector<int>& arr);
 
 #endif

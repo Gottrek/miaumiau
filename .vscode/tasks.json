@@ -13,7 +13,8 @@
                 "merge_sort.cpp",
                 "selection_sort.cpp",
                 "insertion_sort.cpp",
-                "quick_sort.cpp" // Add new files here
+                "quick_sort.cpp",
+                "heap_sort.cpp"// Add new files here
             ],
             "group": {
                 "kind": "build",
