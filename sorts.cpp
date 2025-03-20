@@ -25,3 +25,10 @@ vector<int> generate_random_vector(int n, int min, int max) {
     
     return vec;
 }
+
+void swap_ints(int &a, int &b)
+{
+    int temp = a;
+    a = b;
+    b = temp;
+}

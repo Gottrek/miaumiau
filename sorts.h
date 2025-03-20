@@ -14,10 +14,12 @@ extern long long int liczba_zamian;
 
 void print_vector(vector<int>& arr);
 vector<int> generate_random_vector(int n, int min, int max);
+void swap_ints(int &a, int &b);
 
 void merge_sort(vector<int>& arr, int left, int right);
 void bubble_sort(vector<int>& arr);
 void selection_sort(vector<int>& arr);
 void insertion_sort(vector<int>& arr);
+void quick_sort(vector<int>& arr, int low, int high);
 
 #endif
