@@ -10,7 +10,9 @@
                 "main.cpp",
                 "sorts.cpp",
                 "bubble_sort.cpp",
-                "merge_sort.cpp"
+                "merge_sort.cpp",
+                "selection_sort.cpp",
+                "insertion_sort.cpp" // Add new files here
             ],
             "group": {
                 "kind": "build",

@@ -17,5 +17,7 @@ vector<int> generate_random_vector(int n, int min, int max);
 
 void merge_sort(vector<int>& arr, int left, int right);
 void bubble_sort(vector<int>& arr);
+void selection_sort(vector<int>& arr);
+void insertion_sort(vector<int>& arr);
 
 #endif
