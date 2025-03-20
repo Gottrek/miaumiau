@@ -20,6 +20,7 @@ void merge(vector<int>& arr, int left, int mid, int right)
 
     // ponowne laczenie wektorow
     while (i < n1 && j < n2) {
+        liczba_porownan++;
         if (L[i] <= R[j]) {
             arr[k] = L[i];
             i++;
