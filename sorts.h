@@ -5,6 +5,9 @@
 #include <iostream>
 #include <random>
 #include <chrono>
+#include <fstream>
+#include <numeric>
+#include <iomanip>
 
 using namespace std;
 using namespace chrono;
@@ -15,6 +18,8 @@ extern long long int liczba_zamian;
 void print_vector(vector<int>& arr);
 vector<int> generate_random_vector(int n, int min, int max);
 void swap_ints(int &a, int &b);
+void save_to_file(const vector<double>& data, const string& filename);
+vector<double> calculate_average(const vector<vector<int>>& data);
 
 void merge_sort(vector<int>& arr, int left, int right);
 void bubble_sort(vector<int>& arr);

@@ -7,7 +7,7 @@ int partition(vector<int>& arr, int low, int high)
     // ostatni element jako pivot
     int pivot = arr[high];
 
-    // przedostatni element do swapa
+    // przedostatni element (do swapa)
     int i = (low - 1);
 
     for (int j = low; j <= high - 1; j++) {
