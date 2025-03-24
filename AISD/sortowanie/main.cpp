@@ -1,5 +1,6 @@
 #include "sorts.h"
 
+
 int main() {
     //vector<int> vec10 = { 4, 9, 6, 3, 0, 8, 4, 2, 7, 7 };
     vector<vector<int>> dane(10, vector<int>(3, 0)); // czas, porownania i zamiany do zrobienia sredniej
@@ -8,7 +9,8 @@ int main() {
     //print_vector(vec10);
 
     for (int i = 0; i < 10; i++) {
-        vector<int> vec = generate_random_vector(10000, 0, 100);
+        vector<int> vec = generate_random_vector(100, 0, 100, 4);
+        print_vector(vec);
         auto start = high_resolution_clock::now();
 
         //bubble_sort(vec);
@@ -36,7 +38,7 @@ int main() {
     for (int i = 0; i < 3; i++) {
         cout << dot_on_a_graph[i] << endl;
     }
-
+    
     save_to_file(dot_on_a_graph, "sortowe_pomiary.txt");
     //cout << "Posortowana tablica:\n";
     //print_vector(vec10);

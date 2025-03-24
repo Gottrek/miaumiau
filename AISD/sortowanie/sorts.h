@@ -8,6 +8,7 @@
 #include <fstream>
 #include <numeric>
 #include <iomanip>
+#include <algorithm>
 
 using namespace std;
 using namespace chrono;
@@ -16,7 +17,7 @@ extern long long int liczba_porownan;
 extern long long int liczba_zamian;
 
 void print_vector(vector<int>& arr);
-vector<int> generate_random_vector(int n, int min, int max);
+vector<int> generate_random_vector(int n, int min, int max, int mode);
 void swap_ints(int &a, int &b);
 void save_to_file(const vector<double>& data, const string& filename);
 vector<double> calculate_average(const vector<vector<int>>& data);

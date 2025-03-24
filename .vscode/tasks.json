@@ -2,26 +2,21 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Build main.exe",
+            "label": "Build C++ Project",
             "type": "shell",
             "command": "g++",
             "args": [
-                "-o", "main.exe",
-                "main.cpp",
-                "sorts.cpp",
-                "bubble_sort.cpp",
-                "merge_sort.cpp",
-                "selection_sort.cpp",
-                "insertion_sort.cpp",
-                "quick_sort.cpp",
-                "heap_sort.cpp"// Add new files here
-            ],
+    "main.cpp", "sorts.cpp", "bubble_sort.cpp", "heap_sort.cpp", "insertion_sort.cpp",
+    "merge_sort.cpp", "quick_sort.cpp", "selection_sort.cpp",
+    "-o", "main.exe", "-std=c++17"
+],
+
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
             "problemMatcher": ["$gcc"],
-            "detail": "Generated build task for C++"
+            "detail": "Compile all C++ files in the project"
         }
     ]
 }

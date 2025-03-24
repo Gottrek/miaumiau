@@ -13,7 +13,14 @@ void print_vector(vector<int>& arr)
     cout << endl;
 }
 
-vector<int> generate_random_vector(int n, int min, int max) {
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <random>
+
+using namespace std;
+
+vector<int> generate_random_vector(int n, int min, int max, int mode = 0) {
     random_device rd;   // Seed for random number generator
     mt19937 gen(rd());  // Mersenne Twister PRNG
     uniform_int_distribution<int> dist(min, max);  // Uniform distribution in range [min, max]
@@ -22,9 +29,34 @@ vector<int> generate_random_vector(int n, int min, int max) {
     for (int &num : vec) {
         num = dist(gen);  // Generate random number
     }
-    
+
+    switch (mode)
+    {
+    case 1: // Sorted in ascending order
+        sort(vec.begin(), vec.end());
+        break;
+    case 2: // Sorted in descending order
+        sort(vec.begin(), vec.end(), greater<int>());
+        break;
+    case 3: // A-shaped (mountain shape, increasing then decreasing)
+        sort(vec.begin(), vec.end());  
+        for (int i = 0; i < n / 2; i++) {
+            swap(vec[i], vec[n - i - 1]);  // Swap first half to reverse it
+        }
+        break;
+    case 4: // V-shaped (valley shape, decreasing then increasing)
+        sort(vec.begin(), vec.end(), greater<int>());
+        for (int i = 0; i < n / 2; i++) {
+            swap(vec[i], vec[n - i - 1]);  // Swap first half to reverse it
+        }
+        break;
+    default:
+        break;
+    }
+
     return vec;
 }
+
 
 void swap_ints(int &a, int &b)
 {
