@@ -66,20 +66,21 @@ void swap_ints(int &a, int &b)
 }
 
 void save_to_file(const vector<double>& data, const string& filename) {
-    ofstream file(filename);
+    ofstream file(filename, ios::app);
     
     if (!file) {
         cerr << "Error opening file!" << endl;
         return;
     }
 
-    file << fixed << setprecision(3);  // Set decimal precision (optional)
+    file << fixed << setprecision(2);  // Set decimal precision (optional)
 
     for (size_t i = 0; i < data.size(); i++) {
         file << data[i];
         if (i < data.size() - 1) file << " ";  // Separate numbers with spaces
     }
 
+    file << endl;
     file.close();
     cout << "Data saved to " << filename << endl;
 }
