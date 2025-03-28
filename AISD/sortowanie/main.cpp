@@ -1,6 +1,5 @@
 #include "sorts.h"
 
-
 int main() {
     //vector<int> vec10 = { 4, 9, 6, 3, 0, 8, 4, 2, 7, 7 };
     vector<vector<int>> dane(10, vector<int>(4, 0)); // czas, porownania i zamiany do zrobienia sredniej

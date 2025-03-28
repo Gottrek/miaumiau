@@ -1,4 +1,8 @@
 #include "sorts.h"
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <random>
 
 using namespace std;
 
@@ -12,13 +16,6 @@ void print_vector(vector<int>& arr)
     }
     cout << endl;
 }
-
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <random>
-
-using namespace std;
 
 vector<int> generate_random_vector(int n, int min, int max, int mode = 0) {
     random_device rd;   // Seed for random number generator
