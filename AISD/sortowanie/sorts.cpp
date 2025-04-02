@@ -35,18 +35,26 @@ vector<int> generate_random_vector(int n, int min, int max, int mode = 0) {
     case 2: // Sorted in descending order
         sort(vec.begin(), vec.end(), greater<int>());
         break;
-    case 3: // A-shaped (mountain shape, increasing then decreasing)
-        sort(vec.begin(), vec.end());  
-        for (int i = 0; i < n / 2; i++) {
-            swap(vec[i], vec[n - i - 1]);  // Swap first half to reverse it
+    case 3: { // A-shaped (Mountain)
+        sort(vec.begin(), vec.end());
+        vector<int> temp(n);
+        int left = 0, right = n - 1;
+        for (int i = 0; i < n; i++) {
+            temp[i] = (i % 2 == 0) ? vec[left++] : vec[right--];
         }
+        vec = temp;
         break;
-    case 4: // V-shaped (valley shape, decreasing then increasing)
+    }
+    case 4: { // V-shaped (Valley)
         sort(vec.begin(), vec.end(), greater<int>());
-        for (int i = 0; i < n / 2; i++) {
-            swap(vec[i], vec[n - i - 1]);  // Swap first half to reverse it
+        vector<int> temp(n);
+        int left = 0, right = n - 1;
+        for (int i = 0; i < n; i++) {
+            temp[i] = (i % 2 == 0) ? vec[left++] : vec[right--];
         }
+        vec = temp;
         break;
+    }
     default:
         break;
     }
@@ -82,15 +90,15 @@ void save_to_file(const vector<double>& data, const string& filename) {
     cout << "Data saved to " << filename << endl;
 }
 
-vector<double> calculate_average(const vector<vector<int>>& data) {
-    if (data.empty()) return {0.0, 0.0, 0.0};  // Handle empty input
+vector<double> calculate_average(const vector<vector<long long int>>& data) {
+    if (data.empty()) return {0.0, 0.0, 0.0, 0.0};  // Handle empty input
 
     int num_measurements = data.size();
-    vector<double> averages(3, 0.0);  // To store averages for each column
+    vector<double> averages(4, 0.0);  // To store averages for each column
 
     // Sum each column separately
     for (const auto& row : data) {
-        for (size_t i = 0; i < 3; i++) {
+        for (size_t i = 0; i < 4; i++) {
             averages[i] += row[i];
         }
     }
