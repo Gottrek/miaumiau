@@ -20,7 +20,7 @@ void print_vector(vector<int>& arr);
 vector<int> generate_random_vector(int n, int min, int max, int mode);
 void swap_ints(int &a, int &b);
 void save_to_file(const vector<double>& data, const string& filename);
-vector<double> calculate_average(const vector<vector<int>>& data);
+vector<double> calculate_average(const vector<vector<long long int>>& data);
 
 void merge_sort(vector<int>& arr, int left, int right);
 void bubble_sort(vector<int>& arr);

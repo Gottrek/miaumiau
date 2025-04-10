@@ -35,16 +35,16 @@ vector<int> generate_random_vector(int n, int min, int max, int mode = 0) {
     case 2: // Sorted in descending order
         sort(vec.begin(), vec.end(), greater<int>());
         break;
-    case 3: // A-shaped (mountain shape, increasing then decreasing)
+    case 3: // A-shaped
         sort(vec.begin(), vec.end());  
         for (int i = 0; i < n / 2; i++) {
-            swap(vec[i], vec[n - i - 1]);  // Swap first half to reverse it
+            swap(vec[i], vec[n - i - 1]);
         }
         break;
-    case 4: // V-shaped (valley shape, decreasing then increasing)
+    case 4: // V-shaped
         sort(vec.begin(), vec.end(), greater<int>());
         for (int i = 0; i < n / 2; i++) {
-            swap(vec[i], vec[n - i - 1]);  // Swap first half to reverse it
+            swap(vec[i], vec[n - i - 1]);
         }
         break;
     default:
@@ -82,15 +82,15 @@ void save_to_file(const vector<double>& data, const string& filename) {
     cout << "Data saved to " << filename << endl;
 }
 
-vector<double> calculate_average(const vector<vector<int>>& data) {
-    if (data.empty()) return {0.0, 0.0, 0.0};  // Handle empty input
+vector<double> calculate_average(const vector<vector<long long int>>& data) {
+    if (data.empty()) return {0.0, 0.0, 0.0, 0.0};  // Handle empty input
 
     int num_measurements = data.size();
-    vector<double> averages(3, 0.0);  // To store averages for each column
+    vector<double> averages(4, 0.0);  // To store averages for each column
 
     // Sum each column separately
     for (const auto& row : data) {
-        for (size_t i = 0; i < 3; i++) {
+        for (size_t i = 0; i < 4; i++) {
             averages[i] += row[i];
         }
     }

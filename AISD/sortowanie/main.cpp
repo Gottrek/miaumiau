@@ -2,14 +2,14 @@
 
 int main() {
     //vector<int> vec10 = { 4, 9, 6, 3, 0, 8, 4, 2, 7, 7 };
-    vector<vector<int>> dane(10, vector<int>(4, 0)); // czas, porownania i zamiany do zrobienia sredniej
+    vector<vector<long long int>> dane(10, vector<long long int>(4, 0)); // liczba liczb, czas, porownania i zamiany do zrobienia sredniej
 
     //cout << "Poczatkowa tablica:\n";
     //print_vector(vec10);
     for (int q = 0; q < 20; q++) {
-        int holy_moly = pow(10, q) * 10;
+        int holy_moly = pow(2, q) * 64;
         for (int i = 0; i < 10; i++) {
-            vector<int> vec = generate_random_vector(holy_moly, 0, 100, 4);
+            vector<int> vec = generate_random_vector(holy_moly, 1, holy_moly, 3);
             auto start = high_resolution_clock::now();
 
             bubble_sort(vec);
@@ -35,7 +35,7 @@ int main() {
         }
     
         vector<double> dot_on_a_graph = calculate_average(dane);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             cout << dot_on_a_graph[i] << endl;
         }
         
