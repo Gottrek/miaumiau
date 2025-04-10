@@ -27,12 +27,16 @@ int partition(vector<int>& arr, int low, int high)
 }
 
 
-void quick_sort(vector<int>& arr, int low, int high)
+void quick_sort(vector<int>& arr, int low, int high, int depth)
 {
+    if (depth > 10000) { // Zabezpieczenie przed stack overflow
+        cout << "Przekroczona maksymalna glebokosc rekurencji!" << endl;
+        return;
+    }
     if (low < high) {
         int part_index = partition(arr, low, high);
 
-        quick_sort(arr, low, part_index - 1);
-        quick_sort(arr, part_index + 1, high);
+        quick_sort(arr, low, part_index - 1, depth + 1);
+        quick_sort(arr, part_index + 1, high, depth + 1);
     }
 }

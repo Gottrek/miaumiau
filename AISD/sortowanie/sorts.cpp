@@ -35,18 +35,26 @@ vector<int> generate_random_vector(int n, int min, int max, int mode = 0) {
     case 2: // Sorted in descending order
         sort(vec.begin(), vec.end(), greater<int>());
         break;
-    case 3: // A-shaped
-        sort(vec.begin(), vec.end());  
-        for (int i = 0; i < n / 2; i++) {
-            swap(vec[i], vec[n - i - 1]);
+    case 3: { // A-shaped (Mountain)
+        sort(vec.begin(), vec.end());
+        vector<int> temp(n);
+        int left = 0, right = n - 1;
+        for (int i = 0; i < n; i++) {
+            temp[i] = (i % 2 == 0) ? vec[left++] : vec[right--];
         }
+        vec = temp;
         break;
-    case 4: // V-shaped
+    }
+    case 4: { // V-shaped (Valley)
         sort(vec.begin(), vec.end(), greater<int>());
-        for (int i = 0; i < n / 2; i++) {
-            swap(vec[i], vec[n - i - 1]);
+        vector<int> temp(n);
+        int left = 0, right = n - 1;
+        for (int i = 0; i < n; i++) {
+            temp[i] = (i % 2 == 0) ? vec[left++] : vec[right--];
         }
+        vec = temp;
         break;
+    }
     default:
         break;
     }
