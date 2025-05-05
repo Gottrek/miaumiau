@@ -9,16 +9,18 @@ int main() {
         //vector<int> data = {10, 20, 5, 15, 30, 25, 35, 1, 8, 12};
         vector<int> data = generate_random_vector(n,1,10000,2);
 
+        //for (int val : data) bst = insert(bst, val);
+
         auto start = high_resolution_clock::now();
-        
-        for (int val : data) bst = insert(bst, val);    // OPERACJA
+
+        //int min = findMin(bst);     // OPERACJA
+        for (int val : data) avl = insertAVL(avl, val);
 
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<milliseconds>(stop - start);
         double czas = duration.count();
         wyniki.push_back(czas);
         save_to_file(wyniki, "drzewowe_pomiary.txt");
-        //for (int val : data) avl = insertAVL(avl, val);
 
         //cout << "BST in-order: ";
         //inOrder(bst); cout << endl;
