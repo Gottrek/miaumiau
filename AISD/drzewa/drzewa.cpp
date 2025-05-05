@@ -135,7 +135,7 @@ void deleteTree(Node*& root) {
     if (!root) return;
     deleteTree(root->left);
     deleteTree(root->right);
-    cout << root->key << " ";
+    //cout << root->key << " ";
     delete root;
     root = nullptr;
 }
