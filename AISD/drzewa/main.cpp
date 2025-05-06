@@ -1,28 +1,41 @@
 #include "drzewa.h"
-#include <vector>
-#include <cstdlib>
-#include <ctime>
 
 int main() {
     Node* bst = nullptr;
     Node* avl = nullptr;
+    for (int i = 0; i < 15; i++) {
+        int n = 256*pow(2,i);
+        vector<double> wyniki = {n};
+        //vector<int> data = {10, 20, 5, 15, 30, 25, 35, 1, 8, 12};
+        vector<int> data = generate_random_vector(n,1,10000,2);
 
-    vector<int> data = {10, 20, 5, 15, 30, 25, 35, 1, 8, 12};
+        //for (int val : data) bst = insert(bst, val);
 
-    for (int val : data) bst = insert(bst, val);
-    for (int val : data) avl = insertAVL(avl, val);
+        auto start = high_resolution_clock::now();
 
-    cout << "BST in-order: ";
-    inOrder(bst); cout << endl;
+        //int min = findMin(bst);     // OPERACJA
+        for (int val : data) avl = insertAVL(avl, val);
 
-    cout << "BST min path: ";
-    printPathTo(bst, findMin(bst)->key); cout << endl;
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<milliseconds>(stop - start);
+        double czas = duration.count();
+        wyniki.push_back(czas);
+        save_to_file(wyniki, "drzewowe_pomiary.txt");
 
-    cout << "AVL in-order: ";
-    inOrder(avl); cout << endl;
+        //cout << "BST in-order: ";
+        //inOrder(bst); cout << endl;
 
-    deleteTree(bst);
-    deleteTree(avl);
+        //remove(avl, 8);
+
+        //cout << "BST min path: ";
+        //printPathTo(bst, findMin(bst)->key); cout << endl;
+
+        //cout << "AVL in-order: ";
+        //inOrder(avl); cout << endl;
+
+        deleteTree(bst);
+        deleteTree(avl);
+    }
 
     return 0;
 }
