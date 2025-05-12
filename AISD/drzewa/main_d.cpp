@@ -3,20 +3,25 @@
 int main() {
     Node* bst = nullptr;
     Node* avl = nullptr;
-    for (int i = 0; i < 15; i++) {
+    //Node* balancedBst = nullptr;
+    Node* min = 0;
+    for (int i = 0; i < 25; i++) {
         int n = 256*pow(2,i);
         vector<double> wyniki = {n};
         //vector<int> data = {10, 20, 5, 15, 30, 25, 35, 1, 8, 12};
-        vector<int> data = generate_random_vector(n,1,10000,2);
+        vector<int> data = generate_random_vector(n,1,10000,0);
 
         //for (int val : data) bst = insert(bst, val);
+        
+        for (int val : data) bst = insert(bst, val);
 
-        auto start = high_resolution_clock::now();
+        auto start = high_resolution_clock::now(); // START CZAS
 
-        //int min = findMin(bst);     // OPERACJA
-        for (int val : data) avl = insertAVL(avl, val);
+        //min = findMin(avl);     // OPERACJA
+        balanceNode(bst);
 
-        auto stop = high_resolution_clock::now();
+        auto stop = high_resolution_clock::now(); // STOP CZAS
+
         auto duration = duration_cast<milliseconds>(stop - start);
         double czas = duration.count();
         wyniki.push_back(czas);

@@ -145,3 +145,36 @@ void printSubtree(Node* root, int key) {
     if (node) preOrder(node);
     cout << endl;
 }
+
+Node* balanceNode(Node* root) {
+    if (!root) return nullptr;
+
+    root->left = balanceNode(root->left);
+    root->right = balanceNode(root->right);
+
+    // Zaktualizuj wysokość
+    root->height = 1 + max(height(root->left), height(root->right));
+
+    int balance = getBalance(root);
+
+    // Przypadki rotacji jak w insertAVL
+    if (balance > 1 && getBalance(root->left) >= 0) {
+        return rotateRight(root);
+    }
+
+    if (balance > 1 && getBalance(root->left) < 0) {
+        root->left = rotateLeft(root->left);
+        return rotateRight(root);
+    }
+
+    if (balance < -1 && getBalance(root->right) <= 0) {
+        return rotateLeft(root);
+    }
+
+    if (balance < -1 && getBalance(root->right) > 0) {
+        root->right = rotateRight(root->right);
+        return rotateLeft(root);
+    }
+
+    return root;
+}
