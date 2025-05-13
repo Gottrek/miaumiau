@@ -45,47 +45,104 @@ def wczytaj_graf_z_pliku(nazwa_pliku):
                 
                 # Ustawienie krawędzi w macierzy sąsiedztwa
                 macierz_sasiedztwa[v_i][v_j] = 1
-                
-                # Ustawienie wartości w macierzy grafu zgodnie z regułami
-                if macierz_grafu[v_i][v_j] == -liczba_wierzcholkow - 1:
-                    # Nie ma krawędzi w żadną stronę - dodajemy tylko krawędź v_i -> v_j
-                    macierz_grafu[v_i][v_j] = 0
-                    macierz_grafu[v_j][v_i] = liczba_wierzcholkow + 1
-                elif macierz_grafu[v_i][v_j] == liczba_wierzcholkow + 1:
-                    # Istnieje krawędź v_j -> v_i, dodajemy krawędź v_i -> v_j (tworzymy dwukierunkową)
-                    macierz_grafu[v_i][v_j] = 2 * liczba_wierzcholkow + 1
-                    macierz_grafu[v_j][v_i] = 2 * liczba_wierzcholkow + 1
             
-            # Wypełnianie dodatkowych kolumn w macierzy grafu
-            # Kolumna |V|+1: Pierwszy następnik
-            # Kolumna |V|+2: Pierwszy poprzednik
-            # Kolumna |V|+3: Pierwszy nieincydentny wierzchołek
-            # Kolumna |V|+4: Pierwszy wierzchołek z cyklu (nie implementujemy dla prostego grafu)
+            # Tworzenie list następników, poprzedników i wierzchołków nieincydentnych
+            listy_nastepnikow = [[] for _ in range(liczba_wierzcholkow)]
+            listy_poprzednikow = [[] for _ in range(liczba_wierzcholkow)]
+            listy_nieincydentnych = [[] for _ in range(liczba_wierzcholkow)]
             
             for i in range(liczba_wierzcholkow):
-                # Pierwszy następnik (kolumna |V|+1)
                 for j in range(liczba_wierzcholkow):
                     if macierz_sasiedztwa[i][j] == 1:
-                        macierz_grafu[i][liczba_wierzcholkow] = j
-                        break
-                    else:
-                        macierz_grafu[i][liczba_wierzcholkow] = 0
+                        listy_nastepnikow[i].append(j)
+                    if macierz_sasiedztwa[j][i] == 1:
+                        listy_poprzednikow[i].append(j)
+                    if i != j and macierz_sasiedztwa[i][j] == 0 and macierz_sasiedztwa[j][i] == 0:
+                        listy_nieincydentnych[i].append(j)
+            
+            # Wypełnianie dodatkowych kolumn (|V|+1, |V|+2, |V|+3, |V|+4) w macierzy grafu
+            for i in range(liczba_wierzcholkow):
+                # Pierwszy następnik (kolumna |V|+1)
+                if listy_nastepnikow[i]:
+                    macierz_grafu[i][liczba_wierzcholkow] = listy_nastepnikow[i][0] + 1  # +1, bo indeksy od 1
+                else:
+                    macierz_grafu[i][liczba_wierzcholkow] = 0
                 
                 # Pierwszy poprzednik (kolumna |V|+2)
-                for j in range(liczba_wierzcholkow):
-                    if macierz_sasiedztwa[j][i] == 1:
-                        macierz_grafu[i][liczba_wierzcholkow + 1] = j
-                        break
-                    else:
-                        macierz_grafu[i][liczba_wierzcholkow + 1] = 0
+                if listy_poprzednikow[i]:
+                    macierz_grafu[i][liczba_wierzcholkow + 1] = listy_poprzednikow[i][0] + 1  # +1, bo indeksy od 1
+                else:
+                    macierz_grafu[i][liczba_wierzcholkow + 1] = 0
                 
                 # Pierwszy nieincydentny wierzchołek (kolumna |V|+3)
-                for j in range(liczba_wierzcholkow):
-                    if i != j and macierz_sasiedztwa[i][j] == 0 and macierz_sasiedztwa[j][i] == 0:
-                        macierz_grafu[i][liczba_wierzcholkow + 2] = j
-                        break
-                    else:
-                        macierz_grafu[i][liczba_wierzcholkow + 2] = 0
+                if listy_nieincydentnych[i]:
+                    macierz_grafu[i][liczba_wierzcholkow + 2] = listy_nieincydentnych[i][0] + 1  # +1, bo indeksy od 1
+                else:
+                    macierz_grafu[i][liczba_wierzcholkow + 2] = 0
+                
+                # Pierwszy z cyklu (kolumna |V|+4) - dla prostego grafu ustawiamy 0
+                macierz_grafu[i][liczba_wierzcholkow + 3] = 0
+            
+            # Teraz wykonujemy 3 kroki wypełniania głównej części macierzy zgodnie ze slajdami
+            
+            # Krok 1: Wypełnienie komórek odpowiednio do następników (kolumna 6)
+            for i in range(liczba_wierzcholkow):
+                j = macierz_grafu[i][liczba_wierzcholkow] - 1  # Indeks pierwszego następnika (odejmujemy 1)
+                if j >= 0:  # Jeśli wierzchołek ma następnika
+                    macierz_grafu[i][j] = macierz_grafu[i][liczba_wierzcholkow]  # Wstawiamy numer następnika
+                    
+                    # Teraz uzupełniamy listę następników w macierzy
+                    for k in range(len(listy_nastepnikow[i])):
+                        if k == 0:  # Pierwszy następnik już został wstawiony
+                            continue
+                        obecny = listy_nastepnikow[i][k-1]  # Poprzedni następnik
+                        nastepny = listy_nastepnikow[i][k]  # Aktualny następnik
+                        macierz_grafu[i][obecny] = nastepny + 1  # Wstawiamy numer kolejnego następnika
+                    
+                    # Ostatni następnik na liście wskazuje na pierwszy (cykl)
+                    if listy_nastepnikow[i]:
+                        ostatni = listy_nastepnikow[i][-1]
+                        pierwszy = listy_nastepnikow[i][0]
+                        macierz_grafu[i][ostatni] = pierwszy + 1
+            
+            # Krok 2: Wypełnienie komórek odpowiednio do poprzedników (kolumna 7)
+            for i in range(liczba_wierzcholkow):
+                j = macierz_grafu[i][liczba_wierzcholkow + 1] - 1  # Indeks pierwszego poprzednika
+                if j >= 0:  # Jeśli wierzchołek ma poprzednika
+                    macierz_grafu[i][j] = macierz_grafu[i][liczba_wierzcholkow + 1] + liczba_wierzcholkow
+                    
+                    # Teraz uzupełniamy listę poprzedników w macierzy
+                    for k in range(len(listy_poprzednikow[i])):
+                        if k == 0:  # Pierwszy poprzednik już został wstawiony
+                            continue
+                        obecny = listy_poprzednikow[i][k-1]  # Poprzedni w liście poprzedników
+                        nastepny = listy_poprzednikow[i][k]  # Aktualny w liście poprzedników
+                        macierz_grafu[i][obecny] = nastepny + 1 + liczba_wierzcholkow
+                    
+                    # Ostatni poprzednik na liście wskazuje na pierwszy (cykl)
+                    if listy_poprzednikow[i]:
+                        ostatni = listy_poprzednikow[i][-1]
+                        pierwszy = listy_poprzednikow[i][0]
+                        macierz_grafu[i][ostatni] = pierwszy + 1 + liczba_wierzcholkow
+            
+            # Krok 3: Wypełnienie komórek odpowiednio do wierzchołków nieincydentnych (kolumna 8)
+            for i in range(liczba_wierzcholkow):
+                j = macierz_grafu[i][liczba_wierzcholkow + 2] - 1  # Indeks pierwszego nieincydentnego
+                if j >= 0:  # Jeśli istnieje wierzchołek nieincydentny
+                    macierz_grafu[i][j] = -(macierz_grafu[i][liczba_wierzcholkow + 2])
+                    
+                    # Teraz uzupełniamy listę nieincydentnych w macierzy
+                    for k in range(len(listy_nieincydentnych[i])):
+                        if k == 0:  # Pierwszy nieincydentny już został wstawiony
+                            continue
+                        obecny = listy_nieincydentnych[i][k-1]  # Poprzedni w liście nieincydentnych
+                        nastepny = listy_nieincydentnych[i][k]  # Aktualny w liście nieincydentnych
+                        macierz_grafu[i][obecny] = -(nastepny + 1)
+                    
+                    # Ostatni nieincydentny na liście ma specjalną wartość
+                    if listy_nieincydentnych[i]:
+                        ostatni = listy_nieincydentnych[i][-1]
+                        macierz_grafu[i][ostatni] = -liczba_wierzcholkow - 1
             
             return liczba_wierzcholkow, macierz_sasiedztwa, macierz_grafu
     
@@ -142,9 +199,9 @@ def dfs_macierz_sasiedztwa(macierz_sasiedztwa, liczba_wierzcholkow):
     return [w + 1 for w in wynik]  # Dodajemy 1, aby wierzchołki były numerowane od 1
 
 
-def dfs_macierz_grafu(macierz_grafu, liczba_wierzcholkow):
+def dfs_macierz_grafu(macierz_sasiedztwa, liczba_wierzcholkow):
     """
-    Sortowanie topologiczne grafu reprezentowanego przez macierz grafu 
+    Sortowanie topologiczne grafu reprezentowanego przez macierz sąsiedztwa 
     przy użyciu algorytmu DFS.
     """
     # Stany odwiedzenia wierzchołków
@@ -165,30 +222,11 @@ def dfs_macierz_grafu(macierz_grafu, liczba_wierzcholkow):
         
         stany[v] = ODWIEDZANY
         
-        # Sprawdzenie, czy wierzchołek ma następników
-        if macierz_grafu[v][liczba_wierzcholkow] != 0:
-            # Pierwszy następnik
-            pierwszy_nastepnik = macierz_grafu[v][liczba_wierzcholkow]
-            
-            # Przetwarzanie pierwszego następnika
-            if not dfs_visit(pierwszy_nastepnik):
-                return False
-            
-            # Przetwarzanie kolejnych następników
-            u = pierwszy_nastepnik
-            while True:
-                znaleziono_nastepnika = False
-                for j in range(liczba_wierzcholkow):
-                    # Sprawdzenie, czy j jest następnikiem u
-                    if 0 <= macierz_grafu[u][j] < liczba_wierzcholkow or macierz_grafu[u][j] >= 2 * liczba_wierzcholkow:
-                        if not dfs_visit(j):
-                            return False
-                        znaleziono_nastepnika = True
-                        u = j
-                        break
-                
-                if not znaleziono_nastepnika:
-                    break
+        # Przeglądanie wszystkich sąsiadów
+        for u in range(liczba_wierzcholkow):
+            if macierz_sasiedztwa[v][u] == 1:
+                if not dfs_visit(u):
+                    return False
         
         stany[v] = ODWIEDZONY
         wynik.append(v)
@@ -247,26 +285,17 @@ def kahn_macierz_sasiedztwa(macierz_sasiedztwa, liczba_wierzcholkow):
     return [w + 1 for w in wynik]  # Dodajemy 1, aby wierzchołki były numerowane od 1
 
 
-def kahn_macierz_grafu(macierz_grafu, liczba_wierzcholkow):
+def kahn_macierz_grafu(macierz_sasiedztwa, liczba_wierzcholkow):
     """
-    Sortowanie topologiczne grafu reprezentowanego przez macierz grafu 
+    Sortowanie topologiczne grafu reprezentowanego przez macierz sąsiedztwa 
     przy użyciu algorytmu Kahna (usuwanie wierzchołków o zerowym stopniu wejściowym).
     """
     # Obliczanie stopni wejściowych wierzchołków
     stopnie_wejsciowe = [0] * liczba_wierzcholkow
-    
     for i in range(liczba_wierzcholkow):
-        # Sprawdzenie, czy wierzchołek ma poprzedników (kolumna |V|+2)
-        if macierz_grafu[i][liczba_wierzcholkow + 1] != 0:
-            stopnie_wejsciowe[i] += 1
-            
-            # Iteracja przez wszystkie wierzchołki, aby znaleźć poprzedniki
-            for j in range(liczba_wierzcholkow):
-                if j != macierz_grafu[i][liczba_wierzcholkow + 1] and (
-                    liczba_wierzcholkow < macierz_grafu[i][j] < 2 * liczba_wierzcholkow or
-                    macierz_grafu[i][j] >= 2 * liczba_wierzcholkow + 1
-                ):
-                    stopnie_wejsciowe[i] += 1
+        for j in range(liczba_wierzcholkow):
+            if macierz_sasiedztwa[j][i] == 1:
+                stopnie_wejsciowe[i] += 1
     
     # Kolejka wierzchołków o zerowym stopniu wejściowym
     kolejka = deque()
@@ -284,7 +313,7 @@ def kahn_macierz_grafu(macierz_grafu, liczba_wierzcholkow):
         
         # Usuń krawędzie wychodzące z v i zaktualizuj stopnie wejściowe
         for u in range(liczba_wierzcholkow):
-            if 0 <= macierz_grafu[v][u] < liczba_wierzcholkow or macierz_grafu[v][u] >= 2 * liczba_wierzcholkow:
+            if macierz_sasiedztwa[v][u] == 1:
                 stopnie_wejsciowe[u] -= 1
                 if stopnie_wejsciowe[u] == 0:
                     kolejka.append(u)
@@ -295,7 +324,6 @@ def kahn_macierz_grafu(macierz_grafu, liczba_wierzcholkow):
         return None
     
     return [w + 1 for w in wynik]  # Dodajemy 1, aby wierzchołki były numerowane od 1
-
 
 def wyswietl_macierz(macierz, nazwa="Macierz"):
     """Wyświetla macierz w czytelnym formacie."""
@@ -337,7 +365,7 @@ def main():
         
         elif opcja == "2":
             print("\nSortowanie topologiczne DFS na macierzy grafu:")
-            wynik = dfs_macierz_grafu(macierz_grafu, liczba_wierzcholkow)
+            wynik = dfs_macierz_grafu(macierz_sasiedztwa, liczba_wierzcholkow)
             if wynik:
                 print("Wynik sortowania:", " -> ".join(map(str, wynik)))
         
@@ -349,7 +377,7 @@ def main():
         
         elif opcja == "4":
             print("\nSortowanie topologiczne algorytmem Kahna na macierzy grafu:")
-            wynik = kahn_macierz_grafu(macierz_grafu, liczba_wierzcholkow)
+            wynik = kahn_macierz_grafu(macierz_sasiedztwa, liczba_wierzcholkow)
             if wynik:
                 print("Wynik sortowania:", " -> ".join(map(str, wynik)))
         
