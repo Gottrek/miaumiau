@@ -39,6 +39,7 @@ int height(Node* node);
 int getBalance(Node* node);
 Node* rotateRight(Node* y);
 Node* rotateLeft(Node* x);
+Node* balanceNode(Node* root);
 
 vector<int> generate_random_vector(int n, int min, int max, int mode = 0);
 void print_vector(vector<int>& arr);
