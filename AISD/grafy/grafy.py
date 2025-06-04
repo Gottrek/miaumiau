@@ -9,6 +9,8 @@ Każdy algorytm wykrywa cykle w grafie wejściowym.
 """
 
 from collections import deque
+import random
+import time
 
 def convert_to_adjacency_list(graph_data):
     """
@@ -47,6 +49,21 @@ def convert_to_adjacency_list(graph_data):
                 adj_list[u].append(v)
     
     return adj_list
+
+def zapisz_czas_do_pliku(nazwa_funkcji, czas_ms, nazwa_pliku="czasy_wykonania.txt"):
+    """
+    Zapisuje czas wykonania funkcji do pliku tekstowego.
+    
+    Args:
+        nazwa_funkcji (str): nazwa operacji
+        czas_ms (float): czas w milisekundach
+        nazwa_pliku (str): nazwa pliku do zapisu
+    """
+    try:
+        with open(nazwa_pliku, "a", encoding="utf-8") as f:
+            f.write(f"{nazwa_funkcji}: {czas_ms:.3f} ms\n")
+    except Exception as e:
+        print(f"Błąd zapisu do pliku: {e}")
 
 def generate_graph_matrix(adjacency_list):
     """
@@ -507,7 +524,8 @@ def main():
         print("0. Zakończ")
         
         opcja = input("\nTwój wybór: ")
-        
+        start_total = time.perf_counter()
+
         if opcja == "1":
             print("\nSortowanie topologiczne DFS na macierzy sąsiedztwa:")
             wynik = dfs_macierz_sasiedztwa(macierz_sasiedztwa, liczba_wierzcholkow)
@@ -543,6 +561,10 @@ def main():
         
         else:
             print("Nieprawidłowy wybór. Spróbuj ponownie.")
+        
+        end_total = time.perf_counter()
+        total_time_ms = (end_total - start_total) * 1000
+        zapisz_czas_do_pliku(opcja, total_time_ms, "pomiary.txt")
 
 
 if __name__ == "__main__":
