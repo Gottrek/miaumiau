@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Jeśli nie podano katalogów — zakończ
 [ $# -eq 0 ] && echo "Użycie: $0 katalog1 [katalog2 ...]" && exit 1
 
 for dir in "$@"; do

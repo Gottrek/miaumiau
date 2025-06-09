@@ -1,27 +1,23 @@
 #!/bin/bash
 
-# Skrypt przekształca słowa na różne formaty nazewnictwa
-# Użycie: ./chcase FORMAT słowa...
-# Dostępne formaty: joined, underline, uppercase, dashes
-
 case $1 in
-  joined)       # Bez spacji
+  joined)
     shift
     echo $* | tr -d ' '
     ;;
-  underline)    # Zamiast spacji: podkreślenia
+  underline)
     shift
     echo $* | tr ' ' '_'
     ;;
-  uppercase)    # Podkreślenia + wielkie litery
+  uppercase)
     shift
     echo $* | tr ' ' '_' | tr a-z A-Z
     ;;
-  dashes)       # Zamiast spacji: myślniki
+  dashes)
     shift
     echo $* | tr ' ' '-'
     ;;
-  *)            # Nieznany format – pokaż dostępne
+  *)
     echo "Dostępne formaty: joined underline uppercase dashes"
     ;;
 esac
