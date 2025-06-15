@@ -3,6 +3,28 @@
 #include <fstream>
 #include <algorithm>
 #include <iomanip>
+#include <random>
+
+void generateKnapsackData(
+    int item_count,            // liczba przedmiotów (n)
+    int capacity,              // pojemność plecaka (b)
+    int max_size,              // maksymalny rozmiar przedmiotu
+    int max_value,             // maksymalna wartość przedmiotu
+    const char* filename,      // nazwa pliku wyjściowego
+    int min_size = 1,          // opcjonalnie: minimalny rozmiar (domyślnie 1)
+    int min_value = 1          // opcjonalnie: minimalna wartość (domyślnie 1)
+) {
+    std::ofstream out(filename);
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_int_distribution<int> size_dist(min_size, max_size);
+    std::uniform_int_distribution<int> value_dist(min_value, max_value);
+
+    out << item_count << " " << capacity << "\n";
+    
+    for (int i = 0; i < item_count; ++i) {
+        out << size_dist(gen) << " " << value_dist(gen) << "\n";
+    }
+}
 
 struct Item {
     int size;
@@ -178,6 +200,14 @@ int main() {
     
     std::cout << "Podaj nazwe pliku z danymi: ";
     std::cin >> filename;
+
+    generateKnapsackData(
+    10,     // 10 przedmiotów
+    30,     // pojemność plecaka 30
+    10,     // max rozmiar przedmiotu = 10
+    100,    // max wartość przedmiotu = 100
+    "e1.txt"
+);
     
     if (!loadFromFile(filename, items, capacity)) {
         return 1;
