@@ -70,7 +70,7 @@ def hamilton_cycle_undirected_matrix(matrix):
         return False
     
     if backtrack():
-        return path + [path[0]]                             
+        return path + [path[0]]
     return None
 
 def hamilton_cycle_directed_list(adj_list, n):
