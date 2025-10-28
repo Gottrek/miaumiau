@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/kody/miaumiau/build",
+  "command": "C:\\Users\\wikto\\Desktop\\winlibs-x86_64-posix-seh-gcc-14.2.0-mingw-w64msvcrt-12.0.0-r3\\mingw64\\bin\\g++.exe   -g -o CMakeFiles\\HelloWorld.dir\\test.cpp.obj -c C:\\kody\\miaumiau\\projekt_onie\\test.cpp",
+  "file": "C:/kody/miaumiau/projekt_onie/test.cpp",
+  "output": "CMakeFiles/HelloWorld.dir/test.cpp.obj"
+}
+]
